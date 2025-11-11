@@ -65,7 +65,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Pas de session
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll() // Routes publiques (signin, signup)
-                                .anyRequest().authenticated() // Toutes les autres routes nécessitent une authentification
+                                .anyRequest().authenticated()
+                        // Toutes les autres routes nécessitent une authentification
                 );
 
         // Ajoute notre DaoAuthenticationProvider
