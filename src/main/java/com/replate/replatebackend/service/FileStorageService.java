@@ -2,14 +2,14 @@ package com.replate.replatebackend.service;
 
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource; // <-- NOUVEL IMPORT
-import org.springframework.core.io.UrlResource; // <-- NOUVEL IMPORT
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException; // <-- NOUVEL IMPORT
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -20,9 +20,6 @@ public class FileStorageService {
 
     private final Path rootLocation;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-
     public FileStorageService(@Value("${file.upload-dir}") String uploadDir) {
         this.rootLocation = Paths.get(uploadDir);
         try {
@@ -32,9 +29,6 @@ public class FileStorageService {
         }
     }
 
-    /**
-     * CREATE: Sauvegarde un fichier sur le disque.
-     */
     public String saveFile(MultipartFile file, String subFolder) throws IOException {
         if (file.isEmpty()) {
             throw new RuntimeException("Impossible de stocker un fichier vide.");
@@ -52,17 +46,10 @@ public class FileStorageService {
         return uniqueFileName;
     }
 
-    /**
-     * READ: Charge un fichier depuis le disque.
-     * @param filename Le nom unique du fichier
-     * @param subFolder Le sous-dossier (ex: "users" ou "announcements")
-     * @return Une ressource (Resource) que le contrôleur peut envoyer
-     */
     public Resource loadFile(String filename, String subFolder) {
         try {
             Path file = rootLocation.resolve(subFolder).resolve(filename);
             Resource resource = new UrlResource(file.toUri());
-
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
@@ -73,11 +60,6 @@ public class FileStorageService {
         }
     }
 
-    /**
-     * DELETE: Supprime un fichier du disque.
-     * @param filename Le nom unique du fichier
-     * @param subFolder Le sous-dossier
-     */
     public void deleteFile(String filename, String subFolder) {
         try {
             Path file = rootLocation.resolve(subFolder).resolve(filename);

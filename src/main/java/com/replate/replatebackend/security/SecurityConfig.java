@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler)) // Gère les erreurs 401
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Pas de session
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll() // Routes publiques (signin, signup)
+                        auth.requestMatchers("/api/auth/**","/error").permitAll() // Routes publiques (signin, signup)
                                 .anyRequest().authenticated()
                         // Toutes les autres routes nécessitent une authentification
                 );

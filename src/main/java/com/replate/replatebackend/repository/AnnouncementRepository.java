@@ -1,5 +1,6 @@
 package com.replate.replatebackend.repository;
 
+import com.replate.replatebackend.enums.ModerationStatus;
 import com.replate.replatebackend.model.Announcement;
 import com.replate.replatebackend.model.Merchant;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     List<Announcement> findByDonor(Merchant donor);
 
 
+    List<Announcement> findByModerationStatus(ModerationStatus moderationStatus);
 }
